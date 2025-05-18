@@ -51,6 +51,24 @@ export const Video = (props: IconProps) => (
 	</svg>
 );
 
+export const Reel = (props: IconProps) => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+    strokeWidth={1.5} stroke="#74777d"
+    className={IconSizeVariants[props.size]}>
+    {/* Outer rectangle */}
+    <rect x="3" y="4" width="18" height="16" rx="2" ry="2" strokeLinecap="round" strokeLinejoin="round" />
+    
+    {/* Play button */}
+    <path strokeLinecap="round" strokeLinejoin="round" d="M10 9.5v5l4-2.5-4-2.5z" />
+    
+    {/* Film strip circles (optional aesthetic touch) */}
+    <circle cx="7" cy="7" r="0.5" fill="#74777d" />
+    <circle cx="11" cy="7" r="0.5" fill="#74777d" />
+    <circle cx="15" cy="7" r="0.5" fill="#74777d" />
+    <circle cx="17" cy="7" r="0.5" fill="#74777d" />
+  </svg>
+);
+
 
 export const Links = (props: IconProps) => (
 	<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"

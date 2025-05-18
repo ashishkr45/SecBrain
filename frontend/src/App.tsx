@@ -39,6 +39,13 @@ function App() {
             time={new Date()}
             url='https://x.com/ObsoleteSony/status/1923679892538785966'
           /> 
+          <Card
+            type='reel'
+            title='testing'
+            tags={["testing"]}
+            time={new Date()}
+            url='https://www.instagram.com/reel/DBH-9VoI-c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+          />
         </div>
     </div>
   )

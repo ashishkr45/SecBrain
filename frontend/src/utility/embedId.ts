@@ -23,6 +23,11 @@ export const extractEmbedId = (type: CardProps["type"], url?: string): string | 
 			  return match ? match[1] : null;
 		}
 
+		if (type === "reel") {
+			const match = url.match(/reel\/([a-zA-Z0-9_-]+)/);
+			return match ? match[1] : null;
+		}
+
 		return null;
 	} catch(err) {
 		return null;
