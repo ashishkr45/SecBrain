@@ -28,7 +28,8 @@ const contentSchema = new Schema({
 	title: { type: String, required: true },
 	tags: [{ type: Types.ObjectId, ref: 'Tag' }],
 	userId: { type: Types.ObjectId, required: true, ref: 'User' },
-	shareLink: { type: String, unique: true, sparse: true }
+	shareLink: { type: String, unique: true, sparse: true },
+	createdAt: { type: Date, default: Date.now }
 });
 
 const Content = mongoose.model('Content', contentSchema);

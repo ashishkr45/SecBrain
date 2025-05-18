@@ -52,12 +52,16 @@ contentRouter.post("/board", auth, async (req: Request, res: Response) => {
       title,
       tags: tagIds,
       userId: req.userId,
+      createdAt: new Date()
     });
 
     res.status(201).json({
       status: "success",
       message: "Content created successfully",
-      data: { content: newContent },
+      data: { 
+        content: newContent,
+        createdAt: newContent.createdAt
+      },
     });
 
   } catch (error) {
