@@ -1,26 +1,33 @@
 import { Button } from './components/ui/button'
 import { Card } from './components/ui/spaceCard'
+import { CreateContentModel } from './components/createContentModel'
 import { AddIcon, ShareIcon  } from './icons/Icons'
 import './App.css'
+import { useState } from 'react'
 
 function App() {
+  const [modalOpen, setModalOpen] = useState(true);
 
   return (
-    <div>
-     <div className='p-9'>
+    <div className='p-4'>
+      <CreateContentModel open={modalOpen} onClose={() => setModalOpen(false)} />
+     <div className='flex justify-end gap-4'>
          <Button
           variant="secondary"
           size="md"
           innerText="Share Brain"
-          icon={<ShareIcon size='md'/>}
+          icon={<ShareIcon size='md' color='#fff'/>}
           onClick={() => alert("Primary Button Clicked")}
         />
         <Button
           variant="primary"
           size="md"
           innerText="Add Content"
-          icon= {<AddIcon size='md'/>}
-          onClick={() => alert("Primary Button Clicked")}
+          icon= {<AddIcon size='md' color='#fff'/>}
+          onClick={() => setTimeout(() => {
+            setModalOpen(true);
+            }, 150) 
+          }
         />
      </div>
 

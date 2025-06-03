@@ -3,8 +3,6 @@ import { z } from "zod";
 import { YouTubeCard, ReelsCard, TweetCard } from "./mediaCard";
 
 export const contentTypes = z.enum([
-  "image",
-  "video",
   "article",
   "audio",
   "tweet",
@@ -81,7 +79,6 @@ const renderTypeIcon = (type: z.infer<typeof contentTypes>) => {
   switch (type) {
     case "tweet":
       return <TwitterIcon size="lg" />;
-    case "video":
     case "youtube":
     case "reel":
     case "story":
