@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 
 export const buttonVariants = {
-  primary: "bg-[#432dd7] text-white hover:bg-indigo-700 transition-colors",
-  secondary: "bg-[#9daaff] text-white hover:bg-teal-600 transition-colors",
+  primary: "bg-[#5572c9] text-white hover:bg-indigo-700 transition-colors ease-in",
+  secondary: "bg-[#9daaff] text-white hover:bg-[#7da2dd] transition-colors",
   danger: "bg-rose-500 text-white hover:bg-rose-600 transition-colors",
   outline: "bg-white border border-gray-300 text-gray-800 hover:bg-gray-50 transition-colors",
 } as const;

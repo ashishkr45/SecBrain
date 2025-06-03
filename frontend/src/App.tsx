@@ -1,37 +1,46 @@
 import { Button } from './components/ui/button'
 import { Card } from './components/ui/spaceCard'
 import { CreateContentModel } from './components/createContentModel'
+import { SideBar } from './components/sideBar'
 import { AddIcon, ShareIcon  } from './icons/Icons'
 import './App.css'
 import { useState } from 'react'
 
 function App() {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   return (
-    <div className='p-4'>
-      <CreateContentModel open={modalOpen} onClose={() => setModalOpen(false)} />
-     <div className='flex justify-end gap-4'>
-         <Button
-          variant="secondary"
-          size="md"
-          innerText="Share Brain"
-          icon={<ShareIcon size='md' color='#fff'/>}
-          onClick={() => alert("Primary Button Clicked")}
-        />
-        <Button
-          variant="primary"
-          size="md"
-          innerText="Add Content"
-          icon= {<AddIcon size='md' color='#fff'/>}
-          onClick={() => setTimeout(() => {
-            setModalOpen(true);
-            }, 150) 
-          }
-        />
-     </div>
+    <div>
+      <SideBar 
+        isCollapsed={sidebarCollapsed} 
+        onToggle={setSidebarCollapsed} 
+      />
+      <div className={`p-4 h-screen bg-[#f2f5fc] transition-all duration-300 ease-in-out ${
+        sidebarCollapsed ? 'ml-16' : 'ml-64'
+      }`}>
+        <CreateContentModel open={modalOpen} onClose={() => setModalOpen(false)} />
+        <div className='flex justify-end gap-4'>
+          <Button
+            variant="secondary"
+            size="md"
+            innerText="Share Brain"
+            icon={<ShareIcon size='md' color='#fff'/>}
+            onClick={() => alert("Primary Button Clicked")}
+          />
+          <Button
+            variant="primary"
+            size="md"
+            innerText="Add Content"
+            icon= {<AddIcon size='md' color='#fff'/>}
+            onClick={() => setTimeout(() => {
+              setModalOpen(true);
+              }, 150) 
+            }
+          />
+        </div>
 
-     <div className='flex'>
+        <div className='flex'>
           <Card
             type="youtube"
             title="Am I going Insane!"
@@ -54,7 +63,9 @@ function App() {
             url='https://www.instagram.com/reel/DBH-9VoI-c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
           />
         </div>
+      </div>
     </div>
   )
 }
+
 export default App

@@ -8,7 +8,7 @@ export const YouTubeCard = (props: CardProps) => {
   const embedId = extractEmbedId(type, url);
 
   return (
-    <div className="bg-slate-100 rounded-md shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 max-h-72 flex flex-col">
+    <div className="bg-slate-100 rounded-md border shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 max-h-72 flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
@@ -51,7 +51,7 @@ export const ReelsCard = (props: CardProps) => {
    	const embedId = extractEmbedId(type, url);
 
   return (
-    <div className="bg-slate-100 rounded-md shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
+    <div className="bg-slate-100 rounded-md shadow-md border outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
@@ -96,7 +96,7 @@ export const TweetCard = (props: CardProps) => {
   const embedId = extractEmbedId(type, url);
   
   return (
-    <div className="bg-slate-100 rounded-md shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
+    <div className="bg-slate-100 rounded-md shadow-md border outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
