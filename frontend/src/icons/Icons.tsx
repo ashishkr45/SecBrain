@@ -77,7 +77,7 @@ export const Reel = ({ size, color = "#74777d" }: IconProps) => (
   </svg>
 );
 
-export const CrossIcon = ({ size, color = "#74777d" }: IconProps) => (
+export const CrossIcon = ({ size }: IconProps) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"

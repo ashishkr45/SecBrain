@@ -13,25 +13,29 @@ export function SideBar({ isCollapsed, onToggle }: SideBarProps) {
   };
 
   return (
-    <div className={`p-2 mt-4 mb-3 h-screen bg-white border-r absolute shadow-lg transition-all duration-300 ease-in-out ${
-      isCollapsed ? 'w-16' : 'w-64'
+    <div className={`p-2 mt-4 mb-3 h-screen bg-white border-r absolute shadow-lg transition-all duration-300  ${
+      isCollapsed ? 'w-20' : 'w-64'
     }`}>
       {/* Toggle Button */}
       <button
         onClick={toggleSidebar}
-        className="absolute -right-3 top-6 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 z-10"
+        className="absolute -right-4 top-10 bg-white border border-gray-300 rounded-full w-8 h-8 flex items-center justify-center shadow-md hover:shadow-lg transition-all duration-200 hover:scale-110 z-10"
       >
         <HamBurger size="md" color="#232948" />
       </button>
 
       {/* logo with mainText */}
-      <div className='flex justify-self-start gap-2 items-center mb-8'>
-        <SecBrainIcon width="40" height="40" />
-        <span className={`text-xl antialiased font-bold text-gray-800 transition-all duration-300 ${
-          isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
-        }`}>
-          Second Brain
-        </span>
+      <div className='flex items-center mb-8 ml-3'>
+        <div className="flex-shrink-0 w-10 flex justify-center">
+          <SecBrainIcon width="40" height="40" />
+        </div>
+        <div className="flex-1 overflow-hidden">
+          <span className={`text-xl antialiased font-bold text-gray-800 transition-all duration-300 block whitespace-nowrap pl-2 ${
+            isCollapsed ? 'opacity-0 transform -translate-x-4' : 'opacity-100 transform translate-x-0'
+          }`}>
+            Second Brain
+          </span>
+        </div>
       </div>
 
       {/* the rest of the hot-links */}
@@ -75,21 +79,19 @@ interface IconTextPairProps {
 function IconTextPair({ mainText, icon, isCollapsed }: IconTextPairProps) {
   return (
     <div 
-      className={`group relative p-3 mx-2 flex items-center gap-3 rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#f2f5fc] hover:shadow-md hover:scale-105 active:scale-95 ${
-        isCollapsed ? 'justify-center' : ''
-      }`}
+      className="group relative p-3 mx-2 flex items-center rounded-lg cursor-pointer transition-all duration-200 ease-in-out hover:bg-[#f2f5fc] hover:shadow-md hover:scale-105 active:scale-95"
       title={isCollapsed ? mainText : undefined}
     >
-      {icon && (
-        <span className="flex justify-center items-center transition-transform duration-200 group-hover:scale-110 flex-shrink-0">
-          {icon}
+      <div className="flex-shrink-0 w-6 flex justify-center items-center transition-transform duration-200 group-hover:scale-110">
+        {icon}
+      </div>
+      <div className="flex-1 overflow-hidden">
+        <span className={`text-lg font-medium text-gray-700 group-hover:text-gray-900 transition-all duration-300 block whitespace-nowrap pl-3 ${
+          isCollapsed ? 'opacity-0 transform -translate-x-4' : 'opacity-100 transform translate-x-0'
+        }`}>
+          {mainText}
         </span>
-      )}
-      <span className={`text-lg font-medium text-gray-700 group-hover:text-gray-900 transition-all duration-300 ${
-        isCollapsed ? 'opacity-0 w-0 overflow-hidden' : 'opacity-100'
-      }`}>
-        {mainText}
-      </span>
+      </div>
       
       {/* Tooltip for collapsed state */}
       {isCollapsed && (

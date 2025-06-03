@@ -203,7 +203,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
 
               <div className="flex justify-center mt-6">
                 <Button
-                  variant="secondary"
+                  variant="primary"
                   size="sm"
                   innerText="Create Content"
                   icon={<AddIcon size='md' color="#fff"/>}
