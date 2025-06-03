@@ -45,7 +45,7 @@ export const Card = (props: CardProps) => {
 
   // Default card for other types
   return (
-    <div className="bg-amber-100 rounded-md shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
+    <div className="bg-amber-100 rounded-md shadow-md p-3 w-full h-fit flex flex-col mb-4 break-inside-avoid">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
@@ -71,8 +71,6 @@ export const Card = (props: CardProps) => {
     </div>
   );
 };
-
-
 
 // Helper function for icon rendering
 const renderTypeIcon = (type: z.infer<typeof contentTypes>) => {

@@ -13,7 +13,7 @@ export function SideBar({ isCollapsed, onToggle }: SideBarProps) {
   };
 
   return (
-    <div className={`p-2 mt-4 mb-3 h-screen bg-white border-r absolute shadow-lg transition-all duration-300  ${
+    <div className={`p-2 mt-4 mb-3 h-screen bg-white border-r fixed shadow-lg transition-all duration-300  ${
       isCollapsed ? 'w-20' : 'w-64'
     }`}>
       {/* Toggle Button */}

@@ -8,12 +8,12 @@ export const YouTubeCard = (props: CardProps) => {
   const embedId = extractEmbedId(type, url);
 
   return (
-    <div className="bg-slate-100 rounded-md border shadow-md outline-slate-100 p-3 m-3.5 w-full max-w-72 max-h-72 flex flex-col">
+    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 w-full h-fit flex flex-col m-4 break-inside-avoid">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
           <Video size="lg" />
-          <span className="truncate">{title}</span>
+          <span className="truncate max-w-40">{title}</span>
         </div>
         <div className="flex items-center gap-2">
           <ShareIcon size="lg" />
@@ -47,16 +47,16 @@ export const YouTubeCard = (props: CardProps) => {
 };
 
 export const ReelsCard = (props: CardProps) => {
- 	const { type, title, tags, time, url } = props;
-   	const embedId = extractEmbedId(type, url);
+  const { type, title, tags, time, url } = props;
+  const embedId = extractEmbedId(type, url);
 
   return (
-    <div className="bg-slate-100 rounded-md shadow-md border outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
+    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 w-full h-fit flex flex-col m-4 break-inside-avoid">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
           <Reel size="lg" />
-          <span className="truncate">{title}</span>
+          <span className="truncate max-w-48">{title}</span>
         </div>
         <div className="flex items-center gap-2">
           <ShareIcon size="lg" />
@@ -67,7 +67,7 @@ export const ReelsCard = (props: CardProps) => {
       {/* Reel Body */}
       <div className="mb-4">
         {type === "reel" && embedId ? (
-          <div className="aspect-[9/16] w-full rounded-md overflow-hidden">
+          <div className="aspect-[9/16] w-full rounded-md overflow-hidden max-h-96">
             <iframe
               src={`https://www.instagram.com/reel/${embedId}/embed/`}
               className="w-full h-full"
@@ -84,7 +84,7 @@ export const ReelsCard = (props: CardProps) => {
 
       {/* Footer */}
       <div className="mt-auto pt-2 border-t border-gray-200 text-sm text-gray-500">
-        <p className="truncate">Tags: {tags.join(", ")}</p>
+        <p className="truncate ">Tags: {tags.join(", ")}</p>
         <p>Posted: {new Date(time).toLocaleDateString()}</p>
       </div>
     </div>
@@ -96,12 +96,12 @@ export const TweetCard = (props: CardProps) => {
   const embedId = extractEmbedId(type, url);
   
   return (
-    <div className="bg-slate-100 rounded-md shadow-md border outline-slate-100 p-3 m-3.5 w-full max-w-72 h-auto min-h-80 flex flex-col">
+    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 min-w-full max-w-16 h-fit flex flex-col m-4 break-inside-avoid">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center gap-2 text-md">
           <TwitterIcon size="lg" />
-          <span className="truncate">{title}</span>
+          <span className="truncate max-w-48">{title}</span>
         </div>
         <div className="flex items-center gap-2">
           <ShareIcon size="lg" />
@@ -112,7 +112,9 @@ export const TweetCard = (props: CardProps) => {
       {/* Tweet Body */}
       <div className="mb-4">
         {type === "tweet" && embedId ? (
-          <TwitterTweetEmbed tweetId={embedId} options={{ align: "center" }} />
+          <div className="max-w-full">
+            <TwitterTweetEmbed tweetId={embedId} options={{ align: "center" }} />
+          </div>
         ) : (
           <p className="text-gray-500 text-sm">Invalid or missing tweet ID</p>
         )}

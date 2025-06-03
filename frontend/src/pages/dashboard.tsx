@@ -16,11 +16,11 @@ function Dashboard() {
         isCollapsed={sidebarCollapsed} 
         onToggle={setSidebarCollapsed} 
       />
-      <div className={`p-4 h-screen bg-[#f2f5fc] transition-all duration-300 ease-in-out ${
+      <div className={`p-4 h-screen bg-[#f2f5fc] transition-all duration-300 ease-in-out mr-3 ${
         sidebarCollapsed ? 'ml-20' : 'ml-64'
       }`}>
         <CreateContentModel open={modalOpen} onClose={() => setModalOpen(false)} />
-        <div className='flex justify-end gap-4'>
+        <div className='flex justify-end gap-4 mb-6'>
           <Button
             variant="secondary"
             size="md"
@@ -40,13 +40,98 @@ function Dashboard() {
           />
         </div>
 
-        <div className='flex'>
+        {/* Masonry Layout */}
+        <div className='columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-0'>
           <Card
             type="youtube"
             title="Am I going Insane!"
-            tags={["Tech",]}
+            tags={["Tech"]}
             time={new Date()}
             url='https://youtu.be/6CJiM3E2mAA?si=0zK11PClMTAJMb8g'
+          />       
+          <Card
+            type="tweet"
+            title="An exceptional achievement by Gukesh!"
+            tags={["chess"]}
+            time={new Date()}
+            url='https://x.com/narendramodi/status/1929538936998691151'
+          /> 
+          <Card
+            type='reel'
+            title='Suits'
+            tags={["elegance"]}
+            time={new Date()}
+            url='https://www.instagram.com/reel/DKbOgIpP_it/?utm_source=ig_web_copy_link'
+          />
+          <Card
+            type="youtube"
+            title="Building!"
+            tags={["home"]}
+            time={new Date()}
+            url='https://youtu.be/xZtpbLnd0EE?si=m3pAKaQ8gwk03BxV'
+          />       
+          <Card
+            type="tweet"
+            title="NVIDIA Summer Upgraded"
+            tags={["NVIDIA", "Tech", "Gaming"]}
+            time={new Date()}
+            url='https://x.com/NVIDIAGeForce/status/1929553635370786905'
+          /> 
+          <Card
+            type='reel'
+            title='testing'
+            tags={["testing"]}
+            time={new Date()}
+            url='https://www.instagram.com/reel/DKaFzOgCn_m/?utm_source=ig_web_copy_link'
+          />
+          <Card
+            type="youtube"
+            title="First Short"
+            tags={["Tech"]}
+            time={new Date()}
+            url='https://youtube.com/shorts/HlxtPH9mgCA?si=1QEQNu59x5JxYYPk'
+          />       
+          <Card
+            type="tweet"
+            title="Psychology"
+            tags={["Psychology"]}
+            time={new Date()}
+            url='https://x.com/strongminded101/status/1929280922957844619'
+          /> 
+          <Card
+            type='reel'
+            title='testing'
+            tags={["testing"]}
+            time={new Date()}
+            url='https://www.instagram.com/reel/DBH-9VoI-c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+          />
+          <Card
+            type="youtube"
+            title="Am I going Insane!"
+            tags={["Tech"]}
+            time={new Date()}
+            url='https://youtube.com/shorts/h5Qzq7FH0T0?si=0EPG8Vo7rl9VbtnB'
+          />       
+          <Card
+            type="tweet"
+            title="Sony's Crazy!"
+            tags={["Sony", "Tech", "Gaming"]}
+            time={new Date()}
+            url='https://x.com/ObsoleteSony/status/1923679892538785966'
+          /> 
+          <Card
+            type='reel'
+            title='testing'
+            tags={["testing"]}
+            time={new Date()}
+            url='https://www.instagram.com/reel/DBH-9VoI-c3/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA=='
+          />
+          <Card
+            type="youtube"
+            title="Mangaaa!"
+            tags={["Anime"]}
+            time={new Date()}
+            url='https://youtu.be/5sxptkuzpvs?si=SrqDACaE3HqbpxO2'
           />       
           <Card
             type="tweet"
