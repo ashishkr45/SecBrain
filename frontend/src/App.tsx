@@ -1,3 +1,4 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 import Dashboard from './pages/dashboard'
 import AuthPages from './pages/authPage'
 import './App.css'
@@ -7,10 +8,12 @@ function App() {
   
 
   return (
-    <div>
-      <Dashboard />
-      {/* <AuthPages /> */}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<AuthPages />}/>
+        <Route path="/" element={<Dashboard />}/>
+      </Routes>
+    </BrowserRouter>
   )
 }
 

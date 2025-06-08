@@ -1,130 +1,209 @@
-import { Video, Reel, TwitterIcon, ShareIcon, DeleteIcon } from "../../icons/Icons";
+import { Video, Reel, XIcon, LinkedInIcon, PinterestIcon, ShareIcon, DeleteIcon } from "../../icons/Icons";
 import { CardProps } from "./spaceCard";
-import { extractEmbedId } from "../../utility/embedId";
-import { TwitterTweetEmbed } from "react-twitter-embed";
+import { YouTubeEmbed, InstagramEmbed, XEmbed, LinkedInEmbed, PinterestEmbed } from 'react-social-media-embed';
 
-export const YouTubeCard = (props: CardProps) => {
-  const { type, title, tags, time, url } = props;
-  const embedId = extractEmbedId(type, url);
+const pastelColors = [
+  "bg-pink-100 text-pink-700 border-pink-200",
+  "bg-blue-100 text-blue-700 border-blue-200", 
+  "bg-green-100 text-green-700 border-green-200",
+  "bg-yellow-100 text-yellow-700 border-yellow-200",
+  "bg-purple-100 text-purple-700 border-purple-200",
+  "bg-indigo-100 text-indigo-700 border-indigo-200",
+  "bg-red-100 text-red-700 border-red-200",
+  "bg-orange-100 text-orange-700 border-orange-200",
+  "bg-teal-100 text-teal-700 border-teal-200",
+  "bg-cyan-100 text-cyan-700 border-cyan-200"
+];
 
-  return (
-    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 w-full h-fit flex flex-col m-4 break-inside-avoid">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2 text-md">
-          <Video size="lg" />
-          <span className="truncate max-w-40">{title}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <ShareIcon size="lg" />
-          <DeleteIcon size="lg" />
-        </div>
+const getTagColor = (index: number) => {
+  return pastelColors[index % pastelColors.length];
+};
+
+export type MediaType = 'youtube' | 'instagram' | 'twitter' | 'linkedin' | 'pinterest';
+
+interface MediaCardProps extends CardProps {
+  mediaType: MediaType;
+}
+
+const getMediaConfig = (mediaType: MediaType) => {
+  switch (mediaType) {
+    case 'youtube':
+      return {
+        icon: Video,
+        iconBg: "bg-red-600",
+        unavailableText: "YouTube video unavailable"
+      };
+    case 'instagram':
+      return {
+        icon: Reel,
+        iconBg: "bg-gradient-to-r from-purple-500 to-pink-500",
+        unavailableText: "Instagram Reel unavailable"
+      };
+    case 'twitter':
+      return {
+        icon: XIcon,
+        iconBg: "bg-black",
+        unavailableText: "Tweet unavailable"
+      };
+    case 'linkedin':
+      return {
+        icon: LinkedInIcon, // You might want to create a LinkedIn icon
+        iconBg: "bg-blue-600",
+        unavailableText: "LinkedIn post unavailable"
+      };
+    case 'pinterest':
+      return {
+        icon: PinterestIcon, // You might want to create a Pinterest icon
+        iconBg: "bg-red-500",
+        unavailableText: "Pinterest pin unavailable"
+      };
+  }
+};
+
+const renderEmbed = (mediaType: MediaType, url: string | undefined, unavailableText: string) => {
+  if (!url) {
+    return (
+      <div className="text-gray-400 text-xs text-center py-8 bg-gray-50 rounded-md">
+        {unavailableText}
       </div>
+    );
+  }
 
-      {/* Body */}
-      <div className="mb-4">
-        {type === "youtube" && embedId ? (
-          <div className="aspect-video w-full rounded-md overflow-hidden">
-            <iframe
-              src={`https://www.youtube.com/embed/${embedId}`}
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
+  switch (mediaType) {
+    case 'youtube':
+      return (
+        <div className="rounded-md overflow-hidden bg-gray-100 w-full">
+          <div className="aspect-video w-full">
+            <YouTubeEmbed 
+              url={url} 
+              width="100%" 
+              height="100%"
             />
           </div>
-        ) : (
-          <p className="text-gray-500 text-sm">Invalid or missing YouTube video ID</p>
-        )}
-      </div>
-
-      {/* Footer */}
-      <div className="mt-auto pt-2 border-t border-gray-200 text-sm text-gray-500">
-        <p className="truncate">Tags: {tags.join(", ")}</p>
-        <p>Posted: {new Date(time).toLocaleDateString()}</p>
-      </div>
-    </div>
-  );
-};
-
-export const ReelsCard = (props: CardProps) => {
-  const { type, title, tags, time, url } = props;
-  const embedId = extractEmbedId(type, url);
-
-  return (
-    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 w-full h-fit flex flex-col m-4 break-inside-avoid">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2 text-md">
-          <Reel size="lg" />
-          <span className="truncate max-w-48">{title}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <ShareIcon size="lg" />
-          <DeleteIcon size="lg" />
-        </div>
-      </div>
-
-      {/* Reel Body */}
-      <div className="mb-4">
-        {type === "reel" && embedId ? (
-          <div className="aspect-[9/16] w-full rounded-md overflow-hidden max-h-96">
-            <iframe
-              src={`https://www.instagram.com/reel/${embedId}/embed/`}
-              className="w-full h-full"
-              frameBorder="0"
-              scrolling="no"
-              allowTransparency
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture"
+      );
+    
+    case 'instagram':
+      return (
+        <div className="rounded-md overflow-hidden bg-gray-100 w-full">
+          <div className="w-full" style={{ height: '400px', maxHeight: '400px' }}>
+            <InstagramEmbed 
+              url={url} 
+              width="100%" 
+              height={400}
             />
           </div>
-        ) : (
-          <p className="text-gray-500 text-sm">Invalid or missing Reel ID</p>
-        )}
-      </div>
-
-      {/* Footer */}
-      <div className="mt-auto pt-2 border-t border-gray-200 text-sm text-gray-500">
-        <p className="truncate ">Tags: {tags.join(", ")}</p>
-        <p>Posted: {new Date(time).toLocaleDateString()}</p>
-      </div>
-    </div>
-  );
-};
-
-export const TweetCard = (props: CardProps) => {
-  const { type, title, tags, time, url } = props;
-  const embedId = extractEmbedId(type, url);
-  
-  return (
-    <div className="bg-[#fffdf8] rounded-md shadow-zinc-300 shadow-md p-3 min-w-full max-w-16 h-fit flex flex-col m-4 break-inside-avoid">
-      {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2 text-md">
-          <TwitterIcon size="lg" />
-          <span className="truncate max-w-48">{title}</span>
         </div>
-        <div className="flex items-center gap-2">
-          <ShareIcon size="lg" />
-          <DeleteIcon size="lg" />
-        </div>
-      </div>
-
-      {/* Tweet Body */}
-      <div className="mb-4">
-        {type === "tweet" && embedId ? (
-          <div className="max-w-full">
-            <TwitterTweetEmbed tweetId={embedId} options={{ align: "center" }} />
+      );
+    
+    case 'twitter':
+      return (
+        <div className="rounded-md overflow-hidden bg-gray-100 w-full">
+          <div className="w-full min-h-[150px]">
+            <XEmbed 
+              url={url} 
+              width="100%"
+            />
           </div>
-        ) : (
-          <p className="text-gray-500 text-sm">Invalid or missing tweet ID</p>
-        )}
-      </div>
+        </div>
+      );
+    
+    case 'linkedin':
+      return (
+        <div className="rounded-md overflow-hidden bg-gray-100 w-full">
+          <div className="w-full min-h-[200px]">
+            <LinkedInEmbed 
+              url={url} 
+              width="100%"
+            />
+          </div>
+        </div>
+      );
+    
+    case 'pinterest':
+      return (
+        <div className="rounded-md overflow-hidden bg-gray-100 w-full">
+          <div className="w-full min-h-[300px]">
+            <PinterestEmbed 
+              url={url} 
+              width="100%"
+            />
+          </div>
+        </div>
+      );
+  }
+};
 
-      {/* Footer */}
-      <div className="mt-auto pt-2 border-t border-gray-200 text-sm text-gray-500">
-        <p className="truncate">Tags: {tags.join(", ")}</p>
-        <p>Posted: {new Date(time).toLocaleDateString()}</p>
+export const MediaEmbedCard = (props: MediaCardProps) => {
+  const { title, tags, time, url, mediaType } = props;
+  const { icon: IconComponent, iconBg, unavailableText } = getMediaConfig(mediaType);
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow break-inside-avoid w-full mb-4">
+      <div className="p-2">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2 flex-1 min-w-0 pr-2">
+            <div className={`w-6 h-6 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0`}>
+              <IconComponent size="md" color="#ffffff" />
+            </div>
+            <span className="text-sm font-medium text-gray-900 truncate">{title}</span>
+          </div>
+          <div className="flex items-center gap-1 flex-shrink-0">
+            <button className="p-1.5 hover:bg-gray-100 rounded transition-colors flex items-center justify-center">
+              <ShareIcon size="md" color="#646b76" />
+            </button>
+            <button className="p-1.5 hover:bg-gray-100 rounded transition-colors flex items-center justify-center">
+              <DeleteIcon size="md" color="#646b76" />
+            </button>
+          </div>
+        </div>
+
+        {/* Media Embed */}
+        <div className="mb-3 w-full">
+          {renderEmbed(mediaType, url, unavailableText)}
+        </div>
+
+        {/* Footer */}
+        <div className="space-y-2">
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {tags.map((tag, index) => (
+                <span 
+                  key={index}
+                  className={`${getTagColor(index)} px-2 py-0.5 rounded-md text-xs font-medium`}
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
+          <div className="text-xs text-gray-500 font-medium">
+            {new Date(time).toLocaleDateString()}
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
+// Legacy exports for backward compatibility (optional)
+export const YouTubeCard = (props: CardProps) => (
+  <MediaEmbedCard {...props} mediaType="youtube" />
+);
+
+export const ReelsCard = (props: CardProps) => (
+  <MediaEmbedCard {...props} mediaType="instagram" />
+);
+
+export const TweetCard = (props: CardProps) => (
+  <MediaEmbedCard {...props} mediaType="twitter" />
+);
+
+export const LinkedInCard = (props: CardProps) => (
+  <MediaEmbedCard {...props} mediaType="linkedin" />
+);
+
+export const PinterestCard = (props: CardProps) => (
+  <MediaEmbedCard {...props} mediaType="pinterest" />
+);

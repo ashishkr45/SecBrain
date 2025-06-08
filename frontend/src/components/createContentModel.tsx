@@ -5,9 +5,12 @@ import { z } from "zod";
 
 // Your content types enum
 export const contentTypes = z.enum([
-  "article", "audio", "tweet", "link", "document", "youtube", 
-  "code", "thread", "note", "quote", "presentation", "event", 
-  "bookmark", "post", "reel", "story"
+  "link",
+  "code",
+  "note",
+  "quote",
+  "event",
+  "bookmark",
 ]);
 
 type ContentType = z.infer<typeof contentTypes>;
@@ -128,7 +131,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
             <div className="space-y-4">
               {/* Content Type Dropdown */}
               <div>
-                <label className="block text-sm font-medium mb-2">Content Type *</label>
+                <label className="block text-sm font-medium mb-1">Content Type *</label>
                 <Dropdown
                   value={selectedType}
                   onChange={setSelectedType}
@@ -139,6 +142,20 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
                   placeholder="Select content type"
                 />
               </div>
+              
+              {selectedType === "link" && (
+                <>
+                  {/* Link Input */}
+                  <div>
+                    <label className="block text-sm font-medium mb-2">Link</label>
+                    <Input 
+                      placeholder="Enter link" 
+                      value={link}
+                      onChange={(value) => setLink(value)} 
+                    />
+                  </div>
+                </>
+              )}
 
               {/* Title Input */}
               <div>
@@ -150,15 +167,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
                 />
               </div>
 
-              {/* Link Input */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Link</label>
-                <Input 
-                  placeholder="Enter link" 
-                  value={link}
-                  onChange={(value) => setLink(value)} 
-                />
-              </div>
+              {/* add the was to add content */}
 
               {/* Tags Input */}
               <div>

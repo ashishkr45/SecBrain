@@ -1,24 +1,16 @@
-import { ShareIcon, DeleteIcon, TwitterIcon, Docx, Video, Links, Hash } from "../../icons/Icons";
+import { ShareIcon, DeleteIcon} from "../../icons/Icons";
 import { z } from "zod";
-import { YouTubeCard, ReelsCard, TweetCard } from "./mediaCard";
+import { MediaEmbedCard, MediaType } from "./mediaCard";
+import { extractEmbedType } from "../../utility/embedId";
 
 export const contentTypes = z.enum([
-  "article",
-  "audio",
-  "tweet",
   "link",
   "document",
-  "youtube",
   "code",
-  "thread",
   "note",
   "quote",
-  "presentation",
   "event",
   "bookmark",
-  "post",
-  "reel",
-  "story",
 ]);
 
 export interface CardProps {
@@ -29,72 +21,90 @@ export interface CardProps {
   url?: string;
 }
 
+const pastelColors = [
+  "bg-pink-100 text-pink-700 border-pink-200",
+  "bg-blue-100 text-blue-700 border-blue-200", 
+  "bg-green-100 text-green-700 border-green-200",
+  "bg-yellow-100 text-yellow-700 border-yellow-200",
+  "bg-purple-100 text-purple-700 border-purple-200",
+  "bg-indigo-100 text-indigo-700 border-indigo-200",
+  "bg-red-100 text-red-700 border-red-200",
+  "bg-orange-100 text-orange-700 border-orange-200",
+  "bg-teal-100 text-teal-700 border-teal-200",
+  "bg-cyan-100 text-cyan-700 border-cyan-200"
+];
+
+const getTagColor = (index: number) => {
+  return pastelColors[index % pastelColors.length];
+};
+
 export const Card = (props: CardProps) => {
   const { type, title, tags, time, url} = props;
 
-  // Delegate to YouTubeCard or TweetCard for specific types
-  if (type === "youtube") {
-    return <YouTubeCard type={type} title={title} tags={tags} time={time} url={url} />;
-  }
-  if (type === "tweet" ) {
-    return <TweetCard type={type} title={title} tags={tags} time={time} url={url} />;
-  }
-  if (type === "reel") {
-    return <ReelsCard type={type} title={title} tags={tags} time={time} url={url} />;
-  }
+  if (type === "link" && url) {
+    const mediaType = extractEmbedType(url);
+    
+    if (mediaType) {
+      // Use the unified MediaEmbedCard component
+      return (
+        <MediaEmbedCard 
+          type={type} 
+          title={title} 
+          tags={tags} 
+          time={time} 
+          url={url}
+          mediaType={mediaType as MediaType}
+        />
+      );
+    }
 
-  // Default card for other types
+  // Default card for other types - using consistent styling
   return (
-    <div className="bg-amber-100 rounded-md shadow-md p-3 w-full h-fit flex flex-col mb-4 break-inside-avoid">
+    <div className="bg-white rounded-lg border border-gray-200 p-2 w-80 h-fit shadow-sm hover:shadow-md transition-shadow">
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2 text-md">
-          {renderTypeIcon(type)}
-          <span className="truncate">{title}</span>
-        </div>
+      <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <ShareIcon size="lg" />
-          <DeleteIcon size="lg" />
+          <div className="w-6 h-6 rounded-full bg-gray-600 flex items-center justify-center flex-shrink-0">
+            {/* {renderTypeIcon(type)} */}
+          </div>
+          <span className="text-sm font-medium text-gray-900 truncate">{title}</span>
+        </div>
+        <div className="flex items-center gap-1">
+          <button className="p-1 hover:bg-gray-100 rounded">
+            <ShareIcon size="sm" color="#9ca3af" />
+          </button>
+          <button className="p-1 hover:bg-gray-100 rounded">
+            <DeleteIcon size="sm" color="#9ca3af" />
+          </button>
         </div>
       </div>
 
       {/* Body */}
-      <div className="mb-4">
-        <p className="text-gray-500 text-sm">Content type not supported</p>
+      <div className="mb-3">
+        <div className="text-gray-400 text-xs text-center py-4">
+          Content type not supported
+        </div>
       </div>
 
       {/* Footer */}
-      <div className="mt-auto pt-2 border-t border-gray-200 text-sm text-gray-500">
-        <p className="truncate">Tags: {tags.join(", ")}</p>
-        <p>Posted: {new Date(time).toLocaleDateString()}</p>
-      </div>
+      <div className="text-xs text-gray-400 space-y-1">
+          {tags && tags.length > 0 && (
+            <div className="flex flex-wrap gap-2">
+                    {tags.map((tag, index) => (
+                      <span 
+                        key={index}
+                        className={`${getTagColor(index)} px-3 py-1 rounded-full text-sm border flex items-center gap-2 font-medium`}
+                      >
+                        <span className="truncate max-w-[200px]" title={tag}>
+                          {tag}
+                        </span>
+                      </span>
+                    ))}
+                  </div>
+          )}
+          <div className="bg-slate-300 text-gray-700 border-slate-600 px-3 py-1 rounded-full text-sm border truncate max-w-[100px] font-medium">{new Date(time).toLocaleDateString()}</div>
+        </div>
     </div>
   );
-};
-
-// Helper function for icon rendering
-const renderTypeIcon = (type: z.infer<typeof contentTypes>) => {
-  switch (type) {
-    case "tweet":
-      return <TwitterIcon size="lg" />;
-    case "youtube":
-    case "reel":
-    case "story":
-      return <Video size="lg" />;
-    case "document":
-    case "presentation":
-    case "article":
-    case "note":
-    case "quote":
-    case "post":
-      return <Docx size="lg" />;
-    case "link":
-    case "bookmark":
-      return <Links size="lg" />;
-    case "code":
-    case "thread":
-      return <Hash size="lg" />;
-    default:
-      return <Docx size="lg" />;
-  }
-};
+  };
+}

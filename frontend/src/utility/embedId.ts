@@ -1,35 +1,43 @@
-import { CardProps } from "../components/ui/spaceCard";
+export const extractEmbedType = (url: string): string | null => {
+  if (!url) return null;
+  
+  try {
+    const parsedUrl = new URL(url);
+    const hostname = parsedUrl.hostname.toLowerCase();
 
-export const extractEmbedId = (type: CardProps["type"], url?: string): string | null => {
-	if(!url) return null;
-	try {
-		const parsedUrl = new URL(url);
-		if(type === "youtube") {
-			if(parsedUrl.hostname.includes("youtube.com")) {
-				if(parsedUrl.pathname.includes("/shorts")) {
-					return parsedUrl.pathname.split("/shorts/")[1];
-				} else if(parsedUrl.pathname === "/watch") {
-					return parsedUrl.searchParams.get("v");
-				} else {
-					return parsedUrl.pathname.split("/")[1];
-				}
-			} else if (parsedUrl.hostname.includes("youtu.be")) {
-				return parsedUrl.pathname.slice(1);
-			}
-		}
+    // YouTube - multiple domains
+    if (hostname.includes("youtube.com") || hostname.includes("youtu.be") || hostname.includes("m.youtube.com")) {
+      return "youtube";
+    }
 
-		if (type === "tweet") {
-			  const match = url.match(/status\/(\d+)/);
-			  return match ? match[1] : null;
-		}
+    // Twitter/X - multiple domains
+    if (hostname.includes("x.com") || hostname.includes("twitter.com")) {
+      return "twitter";
+    }
 
-		if (type === "reel") {
-			const match = url.match(/reel\/([a-zA-Z0-9_-]+)/);
-			return match ? match[1] : null;
-		}
+    // Instagram - multiple domains
+    if (hostname.includes("instagram.com") || hostname.includes("instagr.am")) {
+      return "instagram";
+    }
 
-		return null;
-	} catch(err) {
-		return null;
-	}
-} 
+    // LinkedIn - multiple domains
+    if (hostname.includes("linkedin.com") || hostname.includes("lnkd.in")) {
+      return "linkedin";
+    }
+
+    // Pinterest - multiple domains
+    if (hostname.includes("pinterest.com") || hostname.includes("pin.it") || hostname.includes("pinterest.ca")) {
+      return "pinterest";
+    }
+
+    // Facebook - multiple domains
+    if (hostname.includes("facebook.com") || hostname.includes("fb.com") || hostname.includes("m.facebook.com")) {
+      return "facebook";
+    }
+
+    return null;
+  } catch (err) {
+    console.warn("Invalid URL provided:", url);
+    return null;
+  }
+};

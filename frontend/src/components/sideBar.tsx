@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import SecBrainIcon from '../icons/SecBrainIcon';
-import { TwitterIcon, Video, Docx, Links, Hash, HamBurger } from '../icons/Icons';
+import { XIcon, Video, Docx, Links, Hash, HamBurger } from '../icons/Icons';
 
 interface SideBarProps {
   isCollapsed: boolean;
@@ -13,7 +13,7 @@ export function SideBar({ isCollapsed, onToggle }: SideBarProps) {
   };
 
   return (
-    <div className={`p-2 mt-4 mb-3 h-screen bg-white border-r fixed shadow-lg transition-all duration-300  ${
+    <div className={`p-2 pt-3.5 mb-3 min-h-screen bg-white fixed shadow-2xl transition-all duration-300  ${
       isCollapsed ? 'w-20' : 'w-64'
     }`}>
       {/* Toggle Button */}
@@ -42,7 +42,7 @@ export function SideBar({ isCollapsed, onToggle }: SideBarProps) {
       <div className='space-y-1'>
         <IconTextPair 
           mainText='Tweets' 
-          icon={<TwitterIcon size='lg' color='#232948'/>} 
+          icon={<XIcon size='lg' color='#232948'/>} 
           isCollapsed={isCollapsed}
         />
         <IconTextPair 

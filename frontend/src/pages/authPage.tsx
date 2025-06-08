@@ -1,18 +1,21 @@
 import { useState } from 'react';
 import SecBrainIcon from '../icons/SecBrainIcon';
+import { useMutation } from '@tanstack/react-query';
+import { loginUser, signupUser } from '../utility/authApi'; 
+
 
 interface FormData {
   email: string;
   password: string;
   confirmPassword: string;
-  name: string;
+  username: string;
 }
 
 interface FormErrors {
   email?: string;
   password?: string;
   confirmPassword?: string;
-  name?: string;
+  username?: string;
   general?: string;
 }
 
@@ -22,7 +25,7 @@ const AuthPages = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    name: ''
+    username: ''
   });
   const [errors, setErrors] = useState<FormErrors>({});
 
@@ -61,8 +64,8 @@ const AuthPages = () => {
 
     // Sign up specific validations
     if (isSignUp) {
-      if (!formData.name.trim()) {
-        newErrors.name = 'Full name is required';
+      if (!formData.username.trim()) {
+        newErrors.username = 'Username is required';
       }
 
       if (!formData.confirmPassword.trim()) {
@@ -76,12 +79,43 @@ const AuthPages = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (res) => {
+      alert(res.data.message);
+      localStorage.setItem('token', res.data.token);
+    },
+    onError: (error: any) => {
+      setErrors({ general: error.response?.data?.message || 'Login failed'});
+    }
+  });
+
+  const signupMutation = useMutation({
+    mutationFn: signupUser,
+    onSuccess: (res) => {
+      alert(res.data.message);
+    },
+    onError: (error: any) => {
+      setErrors({ general: error.response?.data?.message || 'Signup failed'});
+    }
+  })
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     if (validateForm()) {
-      console.log('Form submitted:', formData);
-      // Handle successful form submission here
+      if (isSignUp) {
+        signupMutation.mutate({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password
+        });
+      } else {
+        loginMutation.mutate({
+          email: formData.email,
+          password: formData.password
+        });
+      }
     }
   };
 
@@ -141,30 +175,30 @@ const AuthPages = () => {
 
           {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Name Field (Sign Up Only) */}
+            {/* USERNAME Field (Sign Up Only) */}
             <div className={`transition-all duration-500 ${
               isSignUp ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
             }`}>
               <div className="relative">
                 <input
                   type="text"
-                  name="name"
-                  value={formData.name}
+                  name="username"
+                  value={formData.username}
                   onChange={handleInputChange}
                   className={`w-full px-4 py-4 bg-gray-50 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-[#232948]/20 focus:border-[#232948] transition-all duration-300 peer placeholder-transparent ${
-                    errors.name ? 'border-red-500' : 'border-gray-200'
+                    errors.username ? 'border-red-500' : 'border-gray-200'
                   }`}
-                  placeholder="Full Name"
-                  id="name"
+                  placeholder="Username"
+                  id="username"
                 />
                 <label 
-                  htmlFor="name"
+                  htmlFor="username"
                   className="absolute left-4 -top-2.5 bg-white px-2 text-sm text-gray-600 transition-all duration-300 peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-400 peer-placeholder-shown:top-4 peer-focus:-top-2.5 peer-focus:text-sm peer-focus:text-[#232948] pointer-events-none"
                 >
-                  Full Name
+                  Username
                 </label>
-                {errors.name && (
-                  <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+                {errors.username && (
+                  <p className="text-red-500 text-xs mt-1">{errors.username}</p>
                 )}
               </div>
             </div>
