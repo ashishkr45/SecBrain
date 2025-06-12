@@ -21,7 +21,8 @@ interface CreateContentModelProps {
   onSubmit?: (data: {
     type: ContentType;
     title: string;
-    link: string;
+    link: string | null;
+    note: string | null;
     tags: string[];
   }) => void;
 }
@@ -30,6 +31,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
   const [selectedType, setSelectedType] = useState<ContentType | "">("");
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
+  const [note, setNote] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [currentTag, setCurrentTag] = useState("");
   const [errors, setErrors] = useState<string[]>([]);
@@ -61,10 +63,16 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
     if (!title.trim()) {
       newErrors.push("Please enter a title");
     }
-    if (!link.trim()) {
-      newErrors.push("Please enter a link");
+    if(selectedType === "link") {
+      if (!link.trim()) {
+        newErrors.push("Please enter a link");
+      }
     }
-
+    if(selectedType && selectedType != "link") {
+      if (!note.trim()) {
+        newErrors.push("Please enter you note");
+      }
+    }
     if (newErrors.length > 0) {
       setErrors(newErrors);
       return;
@@ -74,7 +82,8 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
     onSubmit?.({
       type: selectedType as ContentType,
       title: title.trim(),
-      link: link.trim(),
+      link: link? link.trim() : null,
+      note: note? note.trim() : null,
       tags: tags.filter(tag => tag.trim() !== "")
     });
 
@@ -82,6 +91,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
     setSelectedType("");
     setTitle("");
     setLink("");
+    setNote("");
     setTags([]);
     setCurrentTag("");
     onClose();
@@ -147,7 +157,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
                 <>
                   {/* Link Input */}
                   <div>
-                    <label className="block text-sm font-medium mb-2">Link</label>
+                    <label className="block text-sm font-medium mb-0.5">Link</label>
                     <Input 
                       placeholder="Enter link" 
                       value={link}
@@ -157,9 +167,24 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
                 </>
               )}
 
+              {/* for the rest of the types */}
+              {selectedType && selectedType !== "link" && (
+                <>
+                  <div>
+                    <label className="block text-sm font-medium mb-0.5">Note</label>
+                    <textarea
+                      placeholder="Enter note here..."
+                      value={note}
+                      onChange={(e) => setNote(e.target.value)}
+                      className="w-full border p-2 rounded-md min-h-[100px] resize-y"
+                    />
+                  </div>
+                </>
+              )}
+
               {/* Title Input */}
               <div>
-                <label className="block text-sm font-medium mb-2">Title *</label>
+                <label className="block text-sm font-medium mb-0.5">Title *</label>
                 <Input 
                   placeholder="Enter title" 
                   value={title}
@@ -171,7 +196,7 @@ export function CreateContentModel({ open, onClose, onSubmit }: CreateContentMod
 
               {/* Tags Input */}
               <div>
-                <label className="block text-sm font-medium mb-2">Tags</label>
+                <label className="block text-sm font-medium mb-0.5">Tags</label>
                 <div className="flex gap-2 mb-2">
                   <Input 
                     placeholder="Add tag" 

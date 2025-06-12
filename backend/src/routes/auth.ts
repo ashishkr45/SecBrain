@@ -1,4 +1,4 @@
-0// Libraries Imported
+// Libraries Imported
 import { Request, Response, Router } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";  
@@ -16,8 +16,8 @@ const signupSchema = z.object({
 	password: z.string().min(10).max(45),
 });
 
-const signinSchema = z.object({
-	username: z.string().min(8, { message: "Name should be at least 8 characters" }),
+const loginSchema = z.object({
+	email: z.string().min(8, { message: "Name should be at least 8 characters" }),
 	password: z.string().min(10).max(45)
 });
 
@@ -54,17 +54,17 @@ loginRouter.post("/signup", (req: Request, res: Response) => {
     });
 });
 
-loginRouter.post("/signin", (req: Request, res: Response) => {
-  const handleSignin = async () => {
-    const parseData = signinSchema.safeParse(req.body);
+loginRouter.post("/loginin", (req: Request, res: Response) => {
+  const handleLogin = async () => {
+    const parseData = loginSchema.safeParse(req.body);
     if (!parseData.success) {
       return res.status(400).json({
         message: parseData.error.issues.map((issue) => issue.message).join(", "),
       });
     }
 
-    const { username, password } = parseData.data;
-    const user = await User.findOne({ username });
+    const { email, password } = parseData.data;
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "Invalid username or password" });
     }
@@ -78,7 +78,7 @@ loginRouter.post("/signin", (req: Request, res: Response) => {
     return res.status(200).json({ message: "Signed in successfully", token });
   };
 
-  handleSignin().catch((error) => {
+  handleLogin().catch((error) => {
     const errMessage = error instanceof Error ? error.message : "Unknown error";
     res.status(500).json({ message: "Error while signing in", error: errMessage });
   });

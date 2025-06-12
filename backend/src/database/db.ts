@@ -17,9 +17,10 @@ const userSchema = new Schema({
 const User = mongoose.model('User', userSchema);
 
 // Content Schema
-const contentType = ["image", "video", "article", "audio", "tweet", 
-	"link", "document", "youtube", "code", "thread", "note", "quote", 
-	"presentation", "event", "bookmark", "post", "reel", "story"
+const contentType = [
+	"article", "tweet", "link", "document", 
+	"youtube", "code", "thread", "note", "quote", "event", 
+	"bookmark", "post", "reel",
 ];
 
 const contentSchema = new Schema({

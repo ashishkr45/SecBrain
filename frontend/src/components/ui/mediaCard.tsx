@@ -171,16 +171,16 @@ export const MediaEmbedCard = (props: MediaCardProps) => {
               {tags.map((tag, index) => (
                 <span 
                   key={index}
-                  className={`${getTagColor(index)} px-2 py-0.5 rounded-md text-xs font-medium`}
+                  className={`${getTagColor(index)} px-2 py-0.5 rounded-2xl text-xs font-medium`}
                 >
                   {tag}
                 </span>
               ))}
+              <span className="text-xs px-2 py-0.5 rounded-2xl text-gray-500 bg-slate-200 border-stone-600 font-medium">
+                {new Date(time).toLocaleDateString()}
+              </span>
             </div>
           )}
-          <div className="text-xs text-gray-500 font-medium">
-            {new Date(time).toLocaleDateString()}
-          </div>
         </div>
       </div>
     </div>

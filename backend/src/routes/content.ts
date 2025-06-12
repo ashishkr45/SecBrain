@@ -8,9 +8,9 @@ const contentRouter: Router = Router();
 
 const contentSchema = z.object({
   type: z.enum([
-    "image", "video", "article", "audio", "tweet", "link", "document",
-    "youtube", "code", "thread", "note", "quote", "presentation", "event",
-    "bookmark", "post", "reel", "story"
+    "article", "tweet", "link", "document", "youtube", 
+    "code", "thread", "note", "quote", "event", 
+    "bookmark", "post", "reel",
   ]),
   link: z.string().url(),
   title: z.string().min(1, "Title is required"),
