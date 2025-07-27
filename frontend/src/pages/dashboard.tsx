@@ -48,7 +48,14 @@ function Dashboard() {
             tags={["Tech"]}
             time={new Date()}
             url='https://youtu.be/6CJiM3E2mAA?si=0zK11PClMTAJMb8g'
-          />       
+          />     
+          <Card
+            type="link"
+            title="Am I going Insane!"
+            tags={["Movie"]}
+            time={new Date()}
+            url='https://x.com/BoldExaltus/status/1936425693015060952'
+          />   
           <Card
             type="link"
             title="An exceptional achievement by Gukesh!"

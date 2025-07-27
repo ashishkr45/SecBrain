@@ -119,12 +119,12 @@ const AuthPages = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    if (validateForm()) {
-      console.log('Form submitted:', formData);
-      // Handle successful form submission here
-    }
-  };
+  // const handleButtonClick = () => {
+  //   if (validateForm()) {
+  //     console.log('Form submitted:', formData);
+  //     // Handle successful form submission here
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#f2f5fc] via-[#e2eaf7] to-[#cbdaf2] flex items-center justify-center p-2 relative overflow-hidden">
