@@ -4,84 +4,52 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";  
 import { z } from "zod";
 import { User } from "../database/db"; 
+import { OAuth2Client } from 'google-auth-library';
 
 // Creating Express Instance
 const loginRouter: Router = Router();
 const JWT_SECRET = process.env.JWT_SECRET as string;
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
-// Defining Schema for User Input
-const signupSchema = z.object({
-	username: z.string().min(3),
-	email: z.string().email().max(60),
-	password: z.string().min(10).max(45),
-});
-
-const loginSchema = z.object({
-	email: z.string().min(8, { message: "Name should be at least 8 characters" }),
-	password: z.string().min(10).max(45)
-});
-
-loginRouter.post("/signup", (req: Request, res: Response) => {
-    const handleSignup = async () => {
-        const parseData = signupSchema.safeParse(req.body);
-        if (!parseData.success) {
-            return res.status(400).json({
-                message: "Error in inputs",
-                error: parseData.error.errors,
-            });
-        }
-
-        const { email, password, username } = req.body;
-
-        const repeated = await User.findOne({ username });
-        if (repeated) {
-            return res.status(403).json({
-                message: "Username is already taken!",
-            });
-        }
-
-        const hashedPass = await bcrypt.hash(password, 10);
-        await User.create({ email, password: hashedPass, username });
-
-        return res.status(201).json({ 
-            message: "Signed Up Successfully!",
-        });
-    };
-
-    handleSignup().catch((error) => {
-        const errMessage = error instanceof Error ? error.message : "Unknown error";
-        res.status(500).json({ message: "Error while signing up", error: errMessage });
+loginRouter.post('/google-login', async (req:Request, res: Response) => {
+  const { token } = req.body;
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: process.env.GOOGLE_CLIENT_ID,
     });
-});
 
-loginRouter.post("/loginin", (req: Request, res: Response) => {
-  const handleLogin = async () => {
-    const parseData = loginSchema.safeParse(req.body);
-    if (!parseData.success) {
-      return res.status(400).json({
-        message: parseData.error.issues.map((issue) => issue.message).join(", "),
+    const payload = ticket.getPayload();
+
+    if(!payload || !payload.email) {
+      res.status(401).json({ message: "Invalid Google token "});
+      return;
+    }
+
+    console.log(payload);
+
+    const { email, name, picture, sub  } = payload;
+
+    let user = await User.findOne({ email });
+    if(!user) {
+      user = await User.create({
+        email,
+        username: name || email.split('@')[0],
+        googleId: sub,
+        profilePictureUrl: picture,
       });
     }
 
-    const { email, password } = parseData.data;
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
+    const appToken = jwt.sign({ id: user.id.toString() }, JWT_SECRET);
+    res.status(200).json({ token: appToken });
+    return;
 
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return res.status(401).json({ message: "Invalid username or password" });
-    }
-
-    const token = jwt.sign({ id: user.id.toString() }, JWT_SECRET);
-    return res.status(200).json({ message: "Signed in successfully", token });
-  };
-
-  handleLogin().catch((error) => {
-    const errMessage = error instanceof Error ? error.message : "Unknown error";
-    res.status(500).json({ message: "Error while signing in", error: errMessage });
-  });
-});
+  } catch (error) {
+    console.error("Error verifying Google token", error);
+    res.status(500).json({ message: "Server error during Google login"});
+    return;
+  }
+})
 
 export default loginRouter;
+
