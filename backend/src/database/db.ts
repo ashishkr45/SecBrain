@@ -1,5 +1,8 @@
 import mongoose, { Schema, Types } from "mongoose";
 import dotenv from "dotenv";
+import { string } from "zod";
+import { google } from "googleapis";
+import { request } from "express";
 dotenv.config();
 
 mongoose
@@ -9,10 +12,28 @@ mongoose
 
 // User Schema
 const userSchema = new Schema({
-	username: { type: String, required: true, unique: true },
-	email: { type: String, required: true, unique: true },
-	password: { type: String, required: true }
-});
+	email: {
+		type: String,
+		required: true,
+		unique: true
+	},
+
+	username: {
+		type: String,
+		required: false,
+	},
+
+	googleId: {
+		type: String,
+		unique: true,
+		required: true
+	},
+
+	profilePicUrl: {
+		type: String,
+		required: false
+	},
+}, { timestamps: true });
 
 const User = mongoose.model('User', userSchema);
 
