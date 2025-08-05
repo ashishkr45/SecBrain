@@ -1,20 +1,16 @@
-import { useState } from "react";
 import Navigation from "../components/nevBar";
 import Footer from "../components/ui/footer";
 import { XIcon, LinkedInIcon, GithubIcon } from '../icons/Icons';
 
-const AboutPage = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
+interface AboutPageProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void; 
+}
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
-  
+const AboutPage: React.FC<AboutPageProps> = ({ isDarkMode, toggleDarkMode}) => {
   const linkStyle = `transition-colors duration-300 ${isDarkMode ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-black'}`;
 
   return (
-    // ▼▼▼ KEY CHANGE IS HERE ▼▼▼
-    // The min-h-screen class is now on the outermost container div.
     <div className={`w-full min-h-screen transition-colors duration-300 ${
       isDarkMode ? 'bg-[#191a1a]' : 'bg-[#eaeaea]'
     }`}>

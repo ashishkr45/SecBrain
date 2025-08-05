@@ -1,25 +1,21 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import FeatureCard from "../components/ui/featureCard";
 import { Hash, Links, Docx, ShareIcon } from "../icons/Icons";
 import Navigation from "../components/nevBar";
 import Footer from "../components/ui/footer";
 
-function LandingPage() {
-  const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+interface LandingPageProps {
+  isDarkMode: boolean;
+  toggleDarkMode: () => void; 
+}
 
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+const LandingPage: React.FC<LandingPageProps> = ({ isDarkMode, toggleDarkMode }) => {
+  const navigate = useNavigate();
 
   return (
-    // This flex-col layout ensures the footer can be positioned correctly
     <div className={`flex flex-col min-h-screen w-full transition-colors duration-300 ${
       isDarkMode ? 'bg-[#191a1a]' : 'bg-[#eaeaea]'
     }`}>
-      
-      {/* Main content wrapper that grows to fill space */}
       <main className="flex-grow">
         
         {/* Navigation Component */}
