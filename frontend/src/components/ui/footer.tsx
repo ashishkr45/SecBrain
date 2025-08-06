@@ -68,13 +68,13 @@ const Footer: React.FC<FooterProps> = ({ isDarkMode }) => {
                   <span>GitHub</span>
                 </a>
                 <a href="https://x.com/Ashucifer" target="_blank" className={`flex items-center space-x-3 ${linkStyle}`}>
-                  <XIcon size='lg' />
+                  <XIcon className="h-5 w-5"/>
                   <span>X</span>
                 </a>
-				<a href="https://www.linkedin.com/in/ashishkr45/" target="_blank" className={`flex items-center space-x-3 ${linkStyle}`}>
-					<LinkedInIcon size='lg'/>
-					<span>Linkedin</span>
-				</a>
+                <a href="https://www.linkedin.com/in/ashishkr45/" target="_blank" className={`flex items-center space-x-3 ${linkStyle}`}>
+                  <LinkedInIcon className="h-5 w-5"/>
+                  <span>Linkedin</span>
+                </a>
               </div>
             </div>
           </div>

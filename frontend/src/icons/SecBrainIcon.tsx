@@ -67,3 +67,4 @@ const SecBrainIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 );
 
 export default SecBrainIcon;
+

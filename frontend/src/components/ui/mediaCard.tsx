@@ -1,24 +1,7 @@
 import { Video, Reel, XIcon, LinkedInIcon, PinterestIcon, ShareIcon, DeleteIcon } from "../../icons/Icons";
 import { CardProps } from "./spaceCard";
 import { YouTubeEmbed, InstagramEmbed, XEmbed, LinkedInEmbed, PinterestEmbed } from 'react-social-media-embed';
-
-const pastelColors = [
-  "bg-pink-100 text-pink-700 border-pink-200",
-  "bg-blue-100 text-blue-700 border-blue-200", 
-  "bg-green-100 text-green-700 border-green-200",
-  "bg-yellow-100 text-yellow-700 border-yellow-200",
-  "bg-purple-100 text-purple-700 border-purple-200",
-  "bg-indigo-100 text-indigo-700 border-indigo-200",
-  "bg-red-100 text-red-700 border-red-200",
-  "bg-orange-100 text-orange-700 border-orange-200",
-  "bg-teal-100 text-teal-700 border-teal-200",
-  "bg-cyan-100 text-cyan-700 border-cyan-200"
-];
-
-const getTagColor = (index: number) => {
-  return pastelColors[index % pastelColors.length];
-};
-
+import { lightPastelColors, darkPastelColors } from "./spaceCard";
 export type MediaType = 'youtube' | 'instagram' | 'twitter' | 'linkedin' | 'pinterest';
 
 interface MediaCardProps extends CardProps {
@@ -135,11 +118,16 @@ const renderEmbed = (mediaType: MediaType, url: string | undefined, unavailableT
 };
 
 export const MediaEmbedCard = (props: MediaCardProps) => {
-  const { title, tags, time, url, mediaType } = props;
+  const { title, tags, time, url, mediaType, isDarkMode } = props;
   const { icon: IconComponent, iconBg, unavailableText } = getMediaConfig(mediaType);
 
+  const getTagColor = (index: number, isDarkMode: boolean) => {
+    const colors = isDarkMode ? darkPastelColors : lightPastelColors;
+    return colors[index % colors.length];
+  };
+
   return (
-    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow break-inside-avoid w-full mb-4">
+    <div className={`${isDarkMode ? 'bg-gray-800/30 border-slate-900' : 'bg-white border-gray-200'} rounded-xl border shadow-sm hover:shadow-2xl transition-all duration-300 w-full mb-4`}>
       <div className="p-2">
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
@@ -147,7 +135,7 @@ export const MediaEmbedCard = (props: MediaCardProps) => {
             <div className={`w-6 h-6 rounded-full ${iconBg} flex items-center justify-center flex-shrink-0`}>
               <IconComponent size="md" color="#ffffff" />
             </div>
-            <span className="text-sm font-medium text-gray-900 truncate">{title}</span>
+            <span className={`${isDarkMode ? 'text-gray-50' : 'text-gray-900'} text-sm font-medium truncate`}>{title}</span>
           </div>
           <div className="flex items-center gap-1 flex-shrink-0">
             <button className="p-1.5 hover:bg-gray-100 rounded transition-colors flex items-center justify-center">
@@ -171,12 +159,12 @@ export const MediaEmbedCard = (props: MediaCardProps) => {
               {tags.map((tag, index) => (
                 <span 
                   key={index}
-                  className={`${getTagColor(index)} px-2 py-0.5 rounded-2xl text-xs font-medium`}
+                  className={`${getTagColor(index, isDarkMode)} px-2 py-0.5 rounded-2xl text-xs font-medium`}
                 >
                   {tag}
                 </span>
               ))}
-              <span className="text-xs px-2 py-0.5 rounded-2xl text-gray-500 bg-slate-200 border-stone-600 font-medium">
+              <span className={`${isDarkMode ? 'text-white bg-stone-700 border-stone-900' : 'text-gray-500 bg-slate-200 border-stone-600'} text-xs px-2 py-0.5 rounded-2xl font-medium`}>
                 {new Date(time).toLocaleDateString()}
               </span>
             </div>

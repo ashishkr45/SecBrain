@@ -40,17 +40,24 @@ export const GithubIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-export const XIcon = ({ size, color = "#74777d" }: IconProps) => (
-	<svg xmlns="http://www.w3.org/2000/svg" fill={color} viewBox="0 0 24 24"
-		className={IconSizeVariants[size]}>
-		<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-	</svg>
+export const XIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    {...props}
+  >
+    <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.479l8.6-9.83L0 1.154h7.594l5.243 6.932L18.901 1.153zM17.61 20.644h2.039L6.486 3.24H4.298l13.312 17.404z"></path>
+  </svg>
 );
 
-export const LinkedInIcon = ({ size, color = "#74777d" }: IconProps) => (
-  <svg xmlns="http://www.w3.org/2000/svg" fill={color} viewBox="0 0 24 24"
-    className={IconSizeVariants[size]}>
-    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+export const LinkedInIcon = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
+    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+    <rect x="2" y="9" width="4" height="12"></rect>
+    <circle cx="4" cy="4" r="2"></circle>
   </svg>
 );
 
@@ -114,14 +121,14 @@ export const Reel = ({ size, color = "#74777d" }: IconProps) => (
   </svg>
 );
 
-export const CrossIcon = ({ size }: IconProps) => (
+export const CrossIcon = ({ size, color }: IconProps) => (
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
 		viewBox="0 0 24 24"
 		strokeWidth={1.5}
 		stroke="currentColor"
-		className={`${IconSizeVariants[size]} cursor-pointer text-gray-700 hover:text-red-500 transition-colors duration-200`}
+		className={`${IconSizeVariants[size]} cursor-pointer text-[#${color}] hover:text-red-500 transition-colors duration-200`}
 	>
 		<path
 			strokeLinecap="round"

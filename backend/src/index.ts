@@ -7,7 +7,7 @@ import loginRouter from "./routes/auth";
 import contentRouter from "./routes/content";
 
 const app = express();
-const port = process.env.PORT;
+const port = 3000;
 
 // Middlewares
 app.use(cors()); 

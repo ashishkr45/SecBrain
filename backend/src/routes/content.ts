@@ -6,15 +6,15 @@ import { nanoid } from "nanoid";
 
 const contentRouter: Router = Router();
 
-const contentSchema = z.object({
+export const contentSchema = z.object({
   type: z.enum([
     "article", "tweet", "link", "document", "youtube", 
     "code", "thread", "note", "quote", "event", 
     "bookmark", "post", "reel",
   ]),
-  link: z.string().url(),
+  link: z.string().url().optional(),
   title: z.string().min(1, "Title is required"),
-  tags: z.array(z.string()).nonempty("Tags cannot be empty"),
+  tags: z.array(z.string()),
 });
 
 
@@ -90,20 +90,24 @@ contentRouter.get("/board", auth, async (req: Request, res: Response) => {
   }
 });
 
-contentRouter.delete("/delCont", auth, async (req: Request, res: Response) => {
+contentRouter.delete("/board/:contentId", auth, async (req: Request, res: Response) => {
   try {
     const userId = req.userId as string;
-    const contentId = req.body.contentId;
+    const { contentId } = req.params;
 
-    const deleted = await Content.deleteMany({
-      _id: contentId,
-      userId: userId
+    const deletedContent = await Content.findOneAndDelete({ 
+      _id: contentId, 
+      userId: userId 
     });
+
+    if (!deletedContent) {
+      res.status(404).json({ message: "Content not found or you don't have permission to delete it." });
+      return;
+    }
 
     res.status(200).json({
       status: "success",
       message: "Content deleted successfully",
-      deletedCount: deleted.deletedCount,
     });
 
   } catch (error) {
@@ -194,7 +198,7 @@ contentRouter.post("/unshare", auth, async (req: Request, res: Response) => {
   }
 });
 
-contentRouter.get(":shareLine", async (req: Request, res: Response) => {
+contentRouter.get("/:shareLine", async (req: Request, res: Response) => {
   try {
     const { shareLine } = req.params;
 
